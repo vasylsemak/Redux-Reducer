@@ -1,4 +1,6 @@
-import reducer, { AUTHENTICATED, GOT_ROOMS, BOOK_ROOM } from "./reducer";
+import reducer from "./reducer"
+import { AUTHENTICATED, BOOK_ROOM } from "./userReducer";
+import { GOT_ROOMS } from "./roomsReducer";
 import { expect } from "chai";
 describe("Reducer", () => {
   it("should return the initial state", () => {

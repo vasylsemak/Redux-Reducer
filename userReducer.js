@@ -1,20 +1,15 @@
-// const reducer = (state = { user: {}, rooms: [] }, action) => {
-//   switch (action.type) {
-//     case AUTHENTICATED:
-//       return { ...state, user: action.payload };
-//     case GOT_ROOMS:
-//       return { ...state, rooms: action.payload };
-//     case BOOK_ROOM:
-//       const updatedRooms = state.rooms.map(room => {
-//         if (room.id === action.roomId) {
-//           return { ...room, booked: true };
-//         } else {
-//           return room;
-//         }
-//       });
+export const AUTHENTICATED = "AUTHENTICATED";
+export const BOOK_ROOM = "BOOK_ROOM";
 
-//       return { ...state, rooms: updatedRooms, user: {...state.user, bookedRoom: action.roomId } };
-//     default:
-//       return state;
-//   }
-// };
+const userReducer = (state = {}, action) => {
+  switch(action.type) {
+    case AUTHENTICATED:
+      return action.payload
+    case BOOK_ROOM:
+      return { ...state, bookedRoom: action.roomId }
+    default:
+      return state
+  }
+}
+
+export default userReducer
