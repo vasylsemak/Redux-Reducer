@@ -4,25 +4,37 @@ export const AUTHENTICATED = "AUTHENTICATED";
 export const GOT_ROOMS = "GOT_ROOMS";
 export const BOOK_ROOM = "BOOK_ROOM";
 
-const reducer = (state = { user: {}, rooms: [] }, action) => {
-  switch (action.type) {
-    case AUTHENTICATED:
-      return { ...state, user: action.payload };
-    case GOT_ROOMS:
-      return { ...state, rooms: action.payload };
-    case BOOK_ROOM:
-      const updatedRooms = state.rooms.map(room => {
-        if (room.id === action.roomId) {
-          return { ...room, booked: true };
-        } else {
-          return room;
-        }
-      });
 
-      return { ...state, rooms: updatedRooms, user: {...state.user, bookedRoom: action.roomId } };
+
+const userReducer = (state = {}, action) => {
+  switch(action.type) {
+    case AUTHENTICATED:
+      return action.payload
+    case BOOK_ROOM:
+      return { ...state, bookedRoom: action.roomId }
     default:
-      return state;
+      return state
   }
-};
+}
+
+const roomsReducer = (state = [], action) => {
+  switch(action.type) {
+    case GOT_ROOMS:
+      return action.payload
+    case BOOK_ROOM:
+      const updatedRooms = state.map(room =>
+        (room.id === action.roomId) ? { ...room, booked: true } : room)
+      return updatedRooms
+    default:
+      return state
+  }
+}
+
+
+const reducer = combineReducers({
+  user: userReducer,
+  rooms: roomsReducer
+})
+
 
 export default reducer;
